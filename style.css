@@ -1,0 +1,165 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url('https://static.vecteezy.com/system/resources/thumbnails/049/901/882/small_2x/blurred-abstract-hospital-background-clean-sterile-atmosphere-and-medical-interior-photo.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #222;
+  scroll-behavior: smooth;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  z-index: -1;
+}
+
+nav {
+  background: rgba(33, 33, 33, 0.9);
+  color: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav img {
+  height: 40px;
+  margin-right: 15px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+header img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+
+section {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  max-width: 900px;
+  margin: 30px auto;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+input, select {
+  padding: 12px;
+  font-size: 16px;
+  width: 80%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  padding: 12px 20px;
+  background: #007bff;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  justify-content: center;
+}
+
+.card {
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+.card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table, th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+footer {
+  background: rgba(33, 33, 33, 0.9);
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  margin-top: 30px;
+}
+
+footer a {
+  color: #f0db4f;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.dark-mode {
+  --bg-color: #121212;
+  --text-color: #f4f4f4;
+  --card-bg: #1e1e1e;
+}
+
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    text-align: center;
+  }
+  nav img {
+    margin-bottom: 10px;
+  }
+}
