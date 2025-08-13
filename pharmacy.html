@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediMart - Your Online Pharmacy</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons (used in new footer) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        /* Base styles for the main content area, keeping Inter font from previous version */
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            /* Light gray background */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .container-padding {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .container-padding {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+        
+        .medicine-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        
+        .medicine-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .button-hover-effect {
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .button-hover-effect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            filter: brightness(1.1);
+        }
+        
+        .input-focus-effect:focus {
+            outline: none;
+            border-color: #3b82f6;
+            /* Blue-500 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+            /* Blue-500 with transparency */
+        }
+        
+        .modal {
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-width: 90%;
+            width: 450px;
+        }
+        
+        .modal.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #3b82f6;
+            /* Blue-500 */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .cart-item-transition {
+            transition: all 0.3s ease-in-out;
+        }
+        /* ====== New Navbar Styling ====== */
+        
+        .navbar {
+            background: linear-gradient(90deg, #000000, #1a1a1a);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+        }
+        
+        .navbar .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar ul li {
+            position: relative;
+        }
+        
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 16px;
+            display: block;
+            font-weight: 500;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .navbar ul li a:hover {
+            background: #fff;
+            color: #000;
+            border-radius: 5px;
+            transform: scale(1.05);
+        }
+        /* ===== Dropdown Menu ===== */
+        
+        .navbar ul li ul {
+            position: absolute;
+            top: 45px;
+            left: 0;
+            background: #1a1a1a;
+            display: none;
+            flex-direction: column;
+            min-width: 180px;
+            border-radius: 5px;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .navbar ul li:hover ul {
+            display: flex;
+        }
+        
+        .navbar ul li ul li a {
+            padding: 10px;
+        }
+        
+        .navbar ul li ul li a:hover {
+            background: #fff;
+            color: #000;
+        }
+        /* ===== Animation ===== */
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* ===== New Footer Styling ===== */
+        
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 40px 0 20px;
+            font-family: Arial, sans-serif;
+            /* Explicitly set for footer content */
+        }
+        
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-about,
+        .footer-links,
+        .footer-map,
+        .footer-blog,
+        .footer-awards {
+            flex: 1;
+            min-width: 220px;
+            margin: 10px 20px;
+        }
+        
+        .footer-about h3,
+        .footer-links h3,
+        .footer-map h3,
+        .footer-blog h3,
+        .footer-awards h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-about p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #ccc;
+        }
+        
+        .footer-links ul,
+        .footer-blog ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links ul li,
+        .footer-blog ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a,
+        .footer-blog ul li a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .footer-links ul li a:hover,
+        .footer-blog ul li a:hover {
+            color: #4CAF50;
+            transform: translateX(5px);
+        }
+        
+        .footer-map iframe {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            max-width: 100%;
+        }
+        
+        .footer-awards .award-logos {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-awards .award-logos img {
+            height: 50px;
+            width: auto;
+        }
+        
+        .footer-social {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px 0;
+            border-top: 1px solid #444;
+        }
+        
+        .footer-social h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-social ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .footer-social ul li a {
+            font-size: 16px;
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-social ul li a:hover {
+            color: #4CAF50;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px 0;
+            border-top: 1px solid #444;
+            font-size: 14px;
+            color: #ccc;
+        }
+        /* Mobile adjustments for navbar links */
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            .navbar ul {
+                flex-direction: column;
+                width: 100%;
+                margin-top: 15px;
+            }
+            .navbar ul li a {
+                padding: 10px;
+                width: 100%;
+                text-align: center;
+            }
+            .navbar ul li ul {
+                position: static;
+                /* Allows dropdown to stack vertically */
+                width: 100%;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- New Navigation Bar -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">🏥 CityCare Hospital</div>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li>
+                    <a href="dashboard.html">Dashboard</a>
+                    <ul>
+                        <li><a href="patient.html">Patient</a></li>
+                        <li><a href="doctor.html">Doctor</a></li>
+                        <li><a href="admin.html">Admin</a></li>
+                    </ul>
+                </li>
+                <li><a href="userauthentication.html">User Authentication</a></li>
+                <li><a href="appointment.html">Appointment</a></li>
+                <li><a href="doctorho.html">Doctor Login</a></li>
+                <li><a href="online.html">Online Consultation</a></li>
+                <li><a href="billing.html">Billing & Payments</a></li>
+                <li><a href="pharmacy.html">Pharmacy Management</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="signup.html">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto my-8 p-4 bg-white shadow-xl rounded-lg container-padding">
+        <h2 class="text-4xl font-extrabold text-center text-gray-800 mb-8 transform transition-transform duration-300 hover:scale-100">Find Your Medicine 🔍</h2>
+
+        <!-- Search Section -->
+        <section class="mb-8 p-6 bg-blue-50 rounded-lg shadow-md">
+            <div class="flex flex-col sm:flex-row gap-4 items-center">
+                <input type="text" id="medicineSearch" placeholder="Search by name, ingredient, or NDC..." class="flex-grow p-3 border border-gray-300 rounded-md focus:outline-none input-focus-effect text-lg shadow-sm">
+                <button id="searchButton" class="bg-blue-600 text-white px-6 py-3 rounded-md shadow-md hover:bg-blue-700 button-hover-effect text-lg font-semibold w-full sm:w-auto">
+                    Search
+                </button>
+            </div>
+            <div id="loadingIndicator" class="hidden text-center mt-4 text-blue-600 font-medium">
+                <div class="loading-spinner mx-auto"></div> Loading medicines...
+            </div>
+            <div id="errorMessage" class="hidden text-center mt-4 text-red-600 font-medium"></div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Medicine List Section -->
+            <section class="lg:col-span-2">
+                <h3 class="text-2xl font-bold text-gray-700 mb-4">Available Medicines</h3>
+                <div id="medicineList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Medicine cards will be injected here by JavaScript -->
+                    <p class="text-gray-500 text-center col-span-full" id="initialMessage">Start by searching for medicines above!</p>
+                </div>
+            </section>
+
+            <!-- Shopping Cart Section -->
+            <section class="lg:col-span-1 bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200">
+                <h3 class="text-2xl font-bold text-gray-700 mb-4 flex items-center justify-between">
+                    Your Cart 🛒
+                    <span id="cartItemCount" class="bg-blue-600 text-white text-sm font-bold rounded-full px-3 py-1">0</span>
+                </h3>
+                <div id="cartItems" class="space-y-4 max-h-96 overflow-y-auto pr-2">
+                    <!-- Cart items will be injected here by JavaScript -->
+                    <p class="text-gray-500 text-center" id="emptyCartMessage">Your cart is empty.</p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-gray-300 flex justify-between items-center text-xl font-bold text-gray-800">
+                    <span>Total:</span>
+                    <span id="cartTotal">$0.00</span>
+                </div>
+                <button id="checkoutButton" class="bg-green-600 text-white px-6 py-3 mt-6 rounded-md shadow-lg hover:bg-green-700 button-hover-effect text-lg font-semibold w-full disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    Proceed to Payment
+                </button>
+            </section>
+        </div>
+    </main>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-3xl font-bold text-gray-800 mb-6 text-center">Confirm Payment 💳</h3>
+            <div class="mb-4">
+                <label for="patientName" class="block text-gray-700 text-sm font-bold mb-2">Patient Name:</label>
+                <input type="text" id="patientName" placeholder="Enter patient's name" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none input-focus-effect text-lg shadow-sm">
+            </div>
+            <div class="text-center mb-6">
+                <p class="text-gray-700 text-xl mb-2">Your total amount is:</p>
+                <p id="modalTotalAmount" class="text-blue-700 text-4xl font-extrabold">$0.00</p>
+            </div>
+            <p class="text-gray-600 text-center mb-8">This is a simulated payment. No real transaction will occur.</p>
+            <div class="flex justify-around gap-4">
+                <button id="confirmPaymentButton" class="bg-blue-600 text-white px-8 py-3 rounded-md shadow-md hover:bg-blue-700 button-hover-effect text-lg font-semibold flex-1">
+                    Confirm Payment
+                </button>
+                <button id="cancelPaymentButton" class="bg-gray-400 text-white px-8 py-3 rounded-md shadow-md hover:bg-gray-500 button-hover-effect text-lg font-semibold flex-1">
+                    Cancel
+                </button>
+            </div>
+            <div id="paymentMessage" class="hidden text-center mt-6 text-green-600 font-medium text-lg"></div>
+        </div>
+    </div>
+
+    <!-- New Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <h3>CityCare Hospital</h3>
+                <p>Providing compassionate healthcare with world-class facilities and expert doctors. We are committed to your well-being 24/7.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="appointments.html">Appointments</a></li>
+                    <li><a href="doctors.html">Doctors</a></li>
+                    <li><a href="billing.html">Billing & Payments</a></li>
+                    <li><a href="pharmacy.html">Pharmacy</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-map">
+                <h3>Our Location</h3>
+                <iframe src="https://www.google.com/maps/embed?pb=YOUR_HOSPITAL_LOCATION_EMBED" width="100%" height="200" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div class="footer-blog">
+                <h3>Latest Health Updates</h3>
+                <ul>
+                    <li><a href="#">Free Cardiac Check-up Camp - Aug 2025</a></li>
+                    <li><a href="#">New MRI Machine Installed</a></li>
+                    <li><a href="#">Covid-19 Vaccination Drive Ongoing</a></li>
+                </ul>
+            </div>
+            <div class="footer-awards">
+                <h3>Accreditations</h3>
+                <div class="award-logos">
+                    <img src="https://static.vecteezy.com/system/resources/previews/020/548/447/original/iso-certification-iso-90012015-logo-iso-9000-certification-premium-vector.jpg" alt="ISO Certified">
+                    <img src="https://logos-world.net/wp-content/uploads/2021/03/World-Health-Organization-WHO-Symbol.png" alt="WHO Recognition">
+                    <img src="https://bansalhospitalsirsa.com/wp-content/uploads/2023/09/NABH-Bansal-Hospital.png" alt="NABH Accredited">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-social">
+            <h3>Follow Us</h3>
+            <ul>
+                <li><a href="#"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                <li><a href="#"><i class="fab fa-linkedin-in"></i> Linkedin</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 CityCare Hospital. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const medicineSearchInput = document.getElementById('medicineSearch');
+            const searchButton = document.getElementById('searchButton');
+            const medicineListDiv = document.getElementById('medicineList');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const errorMessage = document.getElementById('errorMessage');
+            const initialMessage = document.getElementById('initialMessage');
+
+            const cartItemsDiv = document.getElementById('cartItems');
+            const cartTotalSpan = document.getElementById('cartTotal');
+            const cartItemCountSpan = document.getElementById('cartItemCount');
+            const emptyCartMessage = document.getElementById('emptyCartMessage');
+            const checkoutButton = document.getElementById('checkoutButton');
+
+            const paymentModal = document.getElementById('paymentModal');
+            const modalTotalAmountSpan = document.getElementById('modalTotalAmount');
+            const patientNameInput = document.getElementById('patientName');
+            const confirmPaymentButton = document.getElementById('confirmPaymentButton');
+            const cancelPaymentButton = document.getElementById('cancelPaymentButton');
+            const paymentMessageDiv = document.getElementById('paymentMessage');
+
+            let cart = {}; // { ndc_package_code: { item, quantity } }
+
+            // --- Mock API Data ---
+            const mockMedicineData = [{
+                "product_type": ["HUMAN OTC DRUG"],
+                "generic_name": "IBUPROFEN",
+                "brand_name": "Advil",
+                "dosage_form": "TABLET",
+                "manufacturer_name": ["Pfizer Inc."],
+                "ndc_package_code": "00573-0150-10",
+                "price": 7.99
+            }, {
+                "product_type": ["HUMAN PRESCRIPTION DRUG"],
+                "generic_name": "ATORVASTATIN CALCIUM",
+                "brand_name": "Lipitor",
+                "dosage_form": "TABLET",
+                "manufacturer_name": ["Pfizer Inc."],
+                "ndc_package_code": "0071-0155-23",
+                "price": 25.50
+            }, {
+                "product_type": ["HUMAN OTC DRUG"],
+                "generic_name": "ACETAMINOPHEN",
+                "brand_name": "Tylenol",
+                "dosage_form": "CAPSULE",
+                "manufacturer_name": ["Johnson & Johnson"],
+                "ndc_package_code": "50580-001-01",
+                "price": 5.25
+            }, {
+                "product_type": ["HUMAN PRESCRIPTION DRUG"],
+                "generic_name": "AMLODIPINE BESYLATE",
+                "brand_name": "Norvasc",
+                "dosage_form": "TABLET",
+                "manufacturer_name": ["Pfizer Inc."],
+                "ndc_package_code": "0069-0030-30",
+                "price": 18.75
+            }, {
+                "product_type": ["HUMAN OTC DRUG"],
+                "generic_name": "Loperamide Hydrochloride",
+                "brand_name": "Imodium A-D",
+                "dosage_form": "CAPSULE",
+                "manufacturer_name": ["Johnson & Johnson"],
+                "ndc_package_code": "50580-008-01",
+                "price": 9.49
+            }, {
+                "product_type": ["HUMAN PRESCRIPTION DRUG"],
+                "generic_name": "Amoxicillin",
+                "brand_name": "Amoxil",
+                "dosage_form": "CAPSULE",
+                "manufacturer_name": ["GSK"],
+                "ndc_package_code": "0029-6005-30",
+                "price": 12.00
+            }, {
+                "product_type": ["HUMAN OTC DRUG"],
+                "generic_name": "Diphenhydramine HCl",
+                "brand_name": "Benadryl",
+                "dosage_form": "TABLET",
+                "manufacturer_name": ["Johnson & Johnson"],
+                "ndc_package_code": "50580-011-01",
+                "price": 6.80
+            }, {
+                "product_type": ["HUMAN PRESCRIPTION DRUG"],
+                "generic_name": "Metformin Hydrochloride",
+                "brand_name": "Glucophage",
+                "dosage_form": "TABLET",
+                "manufacturer_name": ["Bristol-Myers Squibb"],
+                "ndc_package_code": "0087-6060-60",
+                "price": 15.00
+            }, {
+                "product_type": ["HUMAN OTC DRUG"],
+                "generic_name": "Famotidine",
+                "brand_name": "Pepcid AC",
+                "dosage_form": "TABLET",
+                "manufacturer_name": ["Johnson & Johnson"],
+                "ndc_package_code": "50580-025-01",
+                "price": 11.20
+            }, {
+                "product_type": ["HUMAN PRESCRIPTION DRUG"],
+                "generic_name": "Levothyroxine Sodium",
+                "brand_name": "Synthroid",
+                "dosage_form": "TABLET",
+                "manufacturer_name": ["AbbVie Inc."],
+                "ndc_package_code": "0074-0414-01",
+                "price": 9.90
+            }];
+
+            // Pharmacy Info for Receipt (static mock data, distinct from hospital header)
+            const pharmacyInfo = {
+                name: "MediMart Pharmacy",
+                branch: "Main Street Branch",
+                location: "123 Health Avenue, Cityville, State, 12345",
+                mobile: "+1 (555) 123-4567",
+                email: "info@medimart.com"
+            };
+
+            const TAX_RATE = 0.08; // 8%
+            const DISCOUNT_PERCENTAGE = 0.05; // 5%
+
+            // Simulate API call to openFDA
+            async function fetchMedicines(query) {
+                loadingIndicator.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
+                initialMessage.classList.add('hidden');
+                medicineListDiv.innerHTML = ''; // Clear previous results
+
+                try {
+                    // Simulate network delay
+                    await new Promise(resolve => setTimeout(resolve, 800));
+
+                    const lowerCaseQuery = query.toLowerCase();
+                    const filteredData = mockMedicineData.filter(medicine =>
+                        medicine.brand_name.toLowerCase().includes(lowerCaseQuery) ||
+                        medicine.generic_name.toLowerCase().includes(lowerCaseQuery) ||
+                        medicine.ndc_package_code.toLowerCase().includes(lowerCaseQuery)
+                    );
+
+                    if (filteredData.length === 0) {
+                        errorMessage.textContent = 'No medicines found for your search.';
+                        errorMessage.classList.remove('hidden');
+                    } else {
+                        renderMedicines(filteredData);
+                    }
+                } catch (error) {
+                    console.error('Error fetching medicines:', error);
+                    errorMessage.textContent = 'Failed to load medicines. Please try again.';
+                    errorMessage.classList.remove('hidden');
+                } finally {
+                    loadingIndicator.classList.add('hidden');
+                }
+            }
+
+            // Render medicine cards
+            function renderMedicines(medicines) {
+                medicineListDiv.innerHTML = '';
+                medicines.forEach(medicine => {
+                    const card = document.createElement('div');
+                    card.className = 'medicine-card bg-white p-6 rounded-lg shadow-lg border border-gray-100 flex flex-col justify-between';
+                    card.innerHTML = `
+                        <div>
+                            <h4 class="text-xl font-semibold text-gray-800 mb-2">${medicine.brand_name || 'N/A'}</h4>
+                            <p class="text-gray-600 text-sm mb-1">Generic: ${medicine.generic_name || 'N/A'}</p>
+                            <p class="text-gray-500 text-xs mb-3">Form: ${medicine.dosage_form || 'N/A'} | NDC: ${medicine.ndc_package_code || 'N/A'}</p>
+                            <p class="text-blue-700 text-2xl font-bold mt-4">$${(medicine.price || 0).toFixed(2)}</p>
+                        </div>
+                        <button class="add-to-cart-btn mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 button-hover-effect focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
+                                data-ndc="${medicine.ndc_package_code}">
+                            Add to Cart
+                        </button>
+                    `;
+                    medicineListDiv.appendChild(card);
+                });
+
+                document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const ndc = event.target.dataset.ndc;
+                        const medicine = mockMedicineData.find(m => m.ndc_package_code === ndc);
+                        if (medicine) {
+                            addToCart(medicine);
+                        }
+                    });
+                });
+            }
+
+            // Add item to cart
+            function addToCart(item) {
+                if (cart[item.ndc_package_code]) {
+                    cart[item.ndc_package_code].quantity++;
+                } else {
+                    cart[item.ndc_package_code] = {
+                        item: item,
+                        quantity: 1
+                    };
+                }
+                updateCartDisplay();
+            }
+
+            // Remove item from cart
+            function removeFromCart(ndc) {
+                if (cart[ndc]) {
+                    delete cart[ndc];
+                    updateCartDisplay();
+                }
+            }
+
+            // Update item quantity in cart
+            function updateCartQuantity(ndc, change) {
+                if (cart[ndc]) {
+                    cart[ndc].quantity += change;
+                    if (cart[ndc].quantity <= 0) {
+                        delete cart[ndc];
+                    }
+                    updateCartDisplay();
+                }
+            }
+
+            // Update cart UI
+            function updateCartDisplay() {
+                cartItemsDiv.innerHTML = '';
+                let total = 0;
+                let itemCount = 0;
+
+                const cartKeys = Object.keys(cart);
+                if (cartKeys.length === 0) {
+                    emptyCartMessage.classList.remove('hidden');
+                    checkoutButton.disabled = true;
+                } else {
+                    emptyCartMessage.classList.add('hidden');
+                    checkoutButton.disabled = false;
+                }
+
+                cartKeys.forEach(ndc => {
+                    const cartItem = cart[ndc];
+                    total += cartItem.item.price * cartItem.quantity;
+                    itemCount += cartItem.quantity;
+
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'cart-item-transition bg-white p-4 rounded-md shadow-sm border border-gray-100 flex items-center justify-between opacity-0 translate-y-2'; // Initial state for animation
+                    itemElement.innerHTML = `
+                        <div>
+                            <p class="font-semibold text-gray-800">${cartItem.item.brand_name || cartItem.item.generic_name}</p>
+                            <p class="text-sm text-gray-600">$${cartItem.item.price.toFixed(2)} x ${cartItem.quantity}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="quantity-btn bg-gray-200 text-gray-700 w-8 h-8 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-75 transition-all duration-200" data-ndc="${ndc}" data-change="-1">-</button>
+                            <span class="font-medium">${cartItem.quantity}</span>
+                            <button class="quantity-btn bg-gray-200 text-gray-700 w-8 h-8 rounded-full hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-75 transition-all duration-200" data-ndc="${ndc}" data-change="1">+</button>
+                            <button class="remove-from-cart-btn bg-red-500 text-white w-8 h-8 rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-75 transition-all duration-200" data-ndc="${ndc}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 11-2 0v6a1 1 0 112 0V8z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                    `;
+                    cartItemsDiv.appendChild(itemElement);
+
+                    // Trigger animation for new items
+                    setTimeout(() => {
+                        itemElement.classList.remove('opacity-0', 'translate-y-2');
+                    }, 50);
+                });
+
+                cartTotalSpan.textContent = `$${total.toFixed(2)}`;
+                cartItemCountSpan.textContent = itemCount;
+
+                document.querySelectorAll('.quantity-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const ndc = event.target.dataset.ndc;
+                        const change = parseInt(event.target.dataset.change);
+                        updateCartQuantity(ndc, change);
+                    });
+                });
+
+                document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const ndc = event.target.dataset.ndc;
+                        removeFromCart(ndc);
+                    });
+                });
+            }
+
+            // Function to generate the receipt content
+            function generateReceiptContent(patientName, patientProblem, medicineDuration) {
+                const now = new Date();
+                const receiptId = `MM-${now.getTime()}`; // Simple unique ID for the receipt
+                const subtotal = Object.values(cart).reduce((sum, item) => sum + (item.item.price * item.quantity), 0);
+                const discountAmount = subtotal * DISCOUNT_PERCENTAGE;
+                const taxableAmount = subtotal - discountAmount;
+                const taxAmount = taxableAmount * TAX_RATE;
+                const finalTotal = taxableAmount + taxAmount;
+
+                // Generating HTML content for the receipt
+                let receiptHtml = `
+`;
+
+                Object.values(cart).forEach(cartItem => {
+                    receiptHtml += `
+                    <tr>
+                        <td>${cartItem.item.brand_name || cartItem.item.generic_name}</td>
+                        <td>$${cartItem.item.price.toFixed(2)}</td>
+                        <td>${cartItem.quantity}</td>
+                        <td>$${(cartItem.item.price * cartItem.quantity).toFixed(2)}</td>
+                    </tr>
+`;
+                });
+
+                receiptHtml += `
+                
+`;
+                return receiptHtml;
+            }
+
+            // Function to trigger receipt download
+            function downloadReceipt(content) {
+                // Change the MIME type to 'text/html' for HTML content
+                const blob = new Blob([content], {
+                    type: 'text/html;charset=utf-8'
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                // Change the file extension to .html
+                a.download = `medimart_receipt_${new Date().toISOString().slice(0, 10)}.html`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url); // Clean up the URL object
+            }
+
+            // --- Event Listeners ---
+            searchButton.addEventListener('click', () => {
+                fetchMedicines(medicineSearchInput.value);
+            });
+
+            medicineSearchInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    fetchMedicines(medicineSearchInput.value);
+                }
+            });
+
+            checkoutButton.addEventListener('click', () => {
+                modalTotalAmountSpan.textContent = cartTotalSpan.textContent;
+                paymentModal.classList.add('show');
+                paymentMessageDiv.classList.add('hidden'); // Clear any previous messages
+                patientNameInput.value = ''; // Clear patient name field on modal open
+            });
+
+            cancelPaymentButton.addEventListener('click', () => {
+                paymentModal.classList.remove('show');
+            });
+
+            confirmPaymentButton.addEventListener('click', async() => {
+                // Simulate payment processing
+                paymentMessageDiv.textContent = 'Processing your payment...';
+                paymentMessageDiv.className = 'text-center mt-6 text-blue-600 font-medium text-lg';
+                paymentMessageDiv.classList.remove('hidden');
+                confirmPaymentButton.disabled = true;
+                cancelPaymentButton.disabled = true;
+
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate delay
+
+                paymentMessageDiv.textContent = 'Payment successful! 🎉 Thank you for your purchase.';
+                paymentMessageDiv.className = 'text-center mt-6 text-green-600 font-bold text-xl';
+
+                // Get patient name for the receipt
+                const patientName = patientNameInput.value.trim() || 'Guest Patient';
+                const patientProblem = 'N/A'; // Placeholder
+                const medicineDuration = 'As prescribed'; // Placeholder
+
+                // Generate and download receipt
+                const receiptContent = generateReceiptContent(patientName, patientProblem, medicineDuration);
+                downloadReceipt(receiptContent);
+
+                cart = {}; // Clear cart after successful payment
+                updateCartDisplay();
+                medicineSearchInput.value = ''; // Clear search
+                medicineListDiv.innerHTML = '<p class="text-gray-500 text-center col-span-full">Start by searching for medicines above!</p>'; // Reset medicine list
+                initialMessage.classList.remove('hidden');
+
+                setTimeout(() => {
+                    paymentModal.classList.remove('show');
+                    confirmPaymentButton.disabled = false;
+                    cancelPaymentButton.disabled = false;
+                }, 3000); // Close modal after 3 seconds
+            });
+
+            // Initial cart display
+            updateCartDisplay();
+        });
+    </script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediMart Pharmacy - Receipt</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #eee;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1,
+        h2,
+        h3 {
+            color: #0056b3;
+            text-align: center;
+        }
+        
+        .header,
+        .footer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .details,
+        .items,
+        .summary {
+            margin-bottom: 20px;
+            border-top: 1px dashed #ccc;
+            padding-top: 10px;
+        }
+        
+        .items table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .items th,
+        .items td {
+            border: 1px solid #eee;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .items th {
+            background-color: #f2f2f2;
+        }
+        
+        .summary p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .summary p strong {
+            color: #000;
+        }
+        
+        .total {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #007bff;
+            border-top: 2px solid #007bff;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>${pharmacyInfo.name.toUpperCase()}</h1>
+            <p>${pharmacyInfo.branch}<br> ${pharmacyInfo.location}
+                <br> Mobile: ${pharmacyInfo.mobile}<br> Email: ${pharmacyInfo.email}</p>
+        </div>
+        <div class="details">
+            <h3>RECEIPT #${receiptId}</h3>
+            <p>Date: ${now.toLocaleDateString()}</p>
+            <p>Time: ${now.toLocaleTimeString()}</p>
+            <p><strong>PATIENT DETAILS:</strong></p>
+            <p>Name: ${patientName}</p>
+            <p>Problem: ${patientProblem}</p>
+            <p>Medicine Duration: ${medicineDuration}</p>
+        </div>
+        <div class="items">
+            <h3>ITEMS:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Medicine</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="summary">
+            <h3>COST SUMMARY:</h3>
+            <p><span>Subtotal:</span> <strong>$${subtotal.toFixed(2)}</strong></p>
+            <p><span>Discount (${(DISCOUNT_PERCENTAGE * 100).toFixed(0)}%):</span> <strong>-$${discountAmount.toFixed(2)}</strong></p>
+            <p><span>Tax (${(TAX_RATE * 100).toFixed(0)}%):</span> <strong>+$${taxAmount.toFixed(2)}</strong></p>
+            <p class="total"><span>TOTAL PAID:</span> <strong>$${finalTotal.toFixed(2)}</strong></p>
+        </div>
+        <div class="footer">
+            <p>Thank you for your purchase from MediMart Pharmacy!</p>
+            <p>Please consult your doctor for medical advice.</p>
+        </div>
+    </div>
+</body>
+
+</html>

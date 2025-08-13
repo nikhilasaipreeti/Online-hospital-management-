@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CITYCARE HOSPITAL MANAGEMENT SYSTEM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* ===== Global Styles ===== */
+        
+         :root {
+            --primary: #121314;
+            --secondary: #101111;
+            --accent: #e4e7e9;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        /* ===== Navbar Styling ===== */
+        
+        .navbar {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+        }
+        
+        .navbar .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar ul li {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 16px;
+            display: block;
+            font-weight: 500;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .navbar ul li a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+        /* ===== Hero Section ===== */
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        /* ===== Role Selection ===== */
+        
+        .role-selection {
+            text-align: center;
+            padding: 50px 0;
+        }
+        
+        .role-selection h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .role-selection h2 {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            color: var(--primary);
+        }
+        
+        .role-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .role-card {
+            width: 280px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: white;
+        }
+        
+        .role-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .role-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .role-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .role-card p {
+            color: #666;
+        }
+        /* ===== Login Form ===== */
+        
+        .login-card {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            text-align: left;
+        }
+        
+        .login-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--dark);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+        }
+        
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-group input {
+            margin-right: 8px;
+        }
+        
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-full {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+        }
+        /* ===== Footer ===== */
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo-small {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        /* ===== Dashboard Styles ===== */
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: calc(100vh - 70px);
+        }
+        
+        .sidebar {
+            background: var(--secondary);
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-header h3 {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+        
+        .sidebar-header h3 i {
+            margin-right: 10px;
+        }
+        
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+        
+        .sidebar-menu h4 {
+            padding: 0 20px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .sidebar-menu ul {
+            list-style: none;
+        }
+        
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-menu li a:hover,
+        .sidebar-menu li a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .main-content {
+            padding: 30px;
+            background: #f5f7fa;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-header h2 {
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stat-icon.patients {
+            background: linear-gradient(135deg, #00b09b, #96c93d);
+        }
+        
+        .stat-icon.doctors {
+            background: linear-gradient(135deg, #4776E6, #8E54E9);
+        }
+        
+        .stat-icon.appointments {
+            background: linear-gradient(135deg, #FF416C, #FF4B2B);
+        }
+        
+        .stat-icon.revenue {
+            background: linear-gradient(135deg, #FF8008, #FFC837);
+        }
+        
+        .stat-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .stat-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+        
+        tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .action-btn.view {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .action-btn.edit {
+            background: var(--warning);
+            color: var(--dark);
+        }
+        
+        .action-btn.delete {
+            background: var(--danger);
+            color: white;
+        }
+        /* ===== Responsive Styles ===== */
+        
+        @media (max-width: 992px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: none;
+            }
+            .navbar ul {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .role-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            .role-card {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ===== Navigation Bar ===== -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-hospital"></i> CITYCARE HOSPITAL
+            </div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" class="btn btn-outline">Emergency: 911</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ===== Hero Section ===== -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Advanced Healthcare Management System</h1>
+                <p>Streamlining hospital operations for better patient care and efficient administration</p>
+                <a href="#roles" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Role Selection ===== -->
+    <section class="role-selection" id="roles">
+        <div class="container">
+            <h1>Welcome to</h1>
+            <h2>CITYCARE HOSPITAL MANAGEMENT SYSTEM</h2>
+
+            <div class="role-cards">
+                <div class="card role-card" data-role="patient">
+                    <div class="role-icon"><i class="fas fa-user-injured"></i></div>
+                    <h3>Patient Portal</h3>
+                    <p>Book appointments, view medical history, access prescriptions and bills</p>
+                </div>
+
+                <div class="card role-card" data-role="doctor">
+                    <div class="role-icon"><i class="fas fa-user-md"></i></div>
+                    <h3>Doctor Portal</h3>
+                    <p>Manage appointments, update patient records, view schedules</p>
+                </div>
+
+                <div class="card role-card" data-role="admin">
+                    <div class="role-icon"><i class="fas fa-user-shield"></i></div>
+                    <h3>Admin Portal</h3>
+                    <p>Manage hospital staff, view reports, oversee operations</p>
+                </div>
+            </div>
+
+            <div id="login-form-container" class="card login-card" style="display: none;">
+                <h3 id="login-title">Login as <span id="selected-role">Role</span></h3>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">Username / Email</label>
+                        <input type="text" id="username" name="username" class="form-input" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="form-input" required />
+                    </div>
+
+                    <div class="form-row">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="remember" name="remember" />
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">Login</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Patient Dashboard (Hidden by default) ===== -->
+    <div id="patient-dashboard" class="dashboard" style="display: none;">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-user-injured"></i> Patient Dashboard</h3>
+            </div>
+            <div class="sidebar-menu">
+                <h4>Main Menu</h4>
+                <ul>
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                    <li><a href="#"><i class="fas fa-file-medical"></i> Medical Records</a></li>
+                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Bills & Payments</a></li>
+                    <li><a href="#"><i class="fas fa-prescription-bottle-alt"></i> Prescriptions</a></li>
+                </ul>
+                <h4>Account</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-user-cog"></i> Profile Settings</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="page-header">
+                <h2><i class="fas fa-home"></i> Patient Dashboard</h2>
+                <div class="welcome-message">
+                    Welcome back, <strong>John Doe</strong> | <span class="date">Today is Monday, June 12, 2023</span>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon patients">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>2</h3>
+                        <p>Upcoming Appointments</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon doctors">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>5</h3>
+                        <p>Medical Records</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon appointments">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>$120.50</h3>
+                        <p>Pending Bills</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon revenue">
+                        <i class="fas fa-prescription-bottle-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>3</h3>
+                        <p>Active Prescriptions</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-calendar-check"></i> Upcoming Appointments</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Doctor</th>
+                                <th>Department</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>June 15, 2023</td>
+                                <td>10:00 AM</td>
+                                <td>Dr. Sarah Johnson</td>
+                                <td>Cardiology</td>
+                                <td><span class="badge badge-success">Confirmed</span></td>
+                                <td>
+                                    <button class="action-btn view">View</button>
+                                    <button class="action-btn edit">Reschedule</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>June 20, 2023</td>
+                                <td>2:30 PM</td>
+                                <td>Dr. Michael Chen</td>
+                                <td>Neurology</td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                                <td>
+                                    <button class="action-btn view">View</button>
+                                    <button class="action-btn delete">Cancel</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-file-medical"></i> Recent Medical Records</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Doctor</th>
+                                <th>Diagnosis</th>
+                                <th>Treatment</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>May 28, 2023</td>
+                                <td>Dr. Sarah Johnson</td>
+                                <td>Hypertension</td>
+                                <td>Medication prescribed</td>
+                                <td><button class="action-btn view">View Details</button></td>
+                            </tr>
+                            <tr>
+                                <td>April 15, 2023</td>
+                                <td>Dr. Robert Williams</td>
+                                <td>Annual Checkup</td>
+                                <td>All clear</td>
+                                <td><button class="action-btn view">View Details</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Doctor Dashboard (Hidden by default) ===== -->
+    <div id="doctor-dashboard" class="dashboard" style="display: none;">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-user-md"></i> Doctor Dashboard</h3>
+            </div>
+            <div class="sidebar-menu">
+                <h4>Main Menu</h4>
+                <ul>
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                    <li><a href="#"><i class="fas fa-procedures"></i> Patients</a></li>
+                    <li><a href="#"><i class="fas fa-file-medical"></i> Medical Records</a></li>
+                    <li><a href="#"><i class="fas fa-prescription"></i> Prescriptions</a></li>
+                </ul>
+                <h4>Account</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-user-cog"></i> Profile Settings</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="page-header">
+                <h2><i class="fas fa-home"></i> Doctor Dashboard</h2>
+                <div class="welcome-message">
+                    Welcome back, <strong>Dr. Sarah Johnson</strong> | <span class="date">Today is Monday, June 12, 2023</span>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon patients">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>8</h3>
+                        <p>Today's Appointments</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon doctors">
+                        <i class="fas fa-procedures"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>24</h3>
+                        <p>Active Patients</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon appointments">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>5</h3>
+                        <p>Pending Records</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon revenue">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>2</h3>
+                        <p>Urgent Cases</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-calendar-alt"></i> Today's Schedule</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Patient</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>9:00 AM</td>
+                                <td>John Doe</td>
+                                <td>Follow-up</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                                <td>
+                                    <button class="action-btn view">View</button>
+                                    <button class="action-btn edit">Update</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>10:00 AM</td>
+                                <td>Jane Smith</td>
+                                <td>Hypertension</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                                <td>
+                                    <button class="action-btn view">View</button>
+                                    <button class="action-btn edit">Update</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>11:00 AM</td>
+                                <td>Robert Johnson</td>
+                                <td>New Patient</td>
+                                <td><span class="badge badge-warning">In Progress</span></td>
+                                <td>
+                                    <button class="action-btn view">View</button>
+                                    <button class="action-btn edit">Update</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2:00 PM</td>
+                                <td>Emily Davis</td>
+                                <td>Annual Checkup</td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                                <td>
+                                    <button class="action-btn view">View</button>
+                                    <button class="action-btn delete">Cancel</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3:30 PM</td>
+                                <td>Michael Brown</td>
+                                <td>Chest Pain</td>
+                                <td><span class="badge badge-danger">Urgent</span></td>
+                                <td>
+                                    <button class="action-btn view">View</button>
+                                    <button class="action-btn edit">Prioritize</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-procedures"></i> Patient List</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Last Visit</th>
+                                <th>Condition</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>P1001</td>
+                                <td>John Doe</td>
+                                <td>45</td>
+                                <td>June 12, 2023</td>
+                                <td>Hypertension</td>
+                                <td><button class="action-btn view">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>P1002</td>
+                                <td>Jane Smith</td>
+                                <td>32</td>
+                                <td>June 10, 2023</td>
+                                <td>Diabetes</td>
+                                <td><button class="action-btn view">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>P1003</td>
+                                <td>Robert Johnson</td>
+                                <td>58</td>
+                                <td>June 12, 2023</td>
+                                <td>High Cholesterol</td>
+                                <td><button class="action-btn view">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Admin Dashboard (Hidden by default) ===== -->
+    <div id="admin-dashboard" class="dashboard" style="display: none;">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-user-shield"></i> Admin Dashboard</h3>
+            </div>
+            <div class="sidebar-menu">
+                <h4>Main Menu</h4>
+                <ul>
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-user-md"></i> Doctors</a></li>
+                    <li><a href="#"><i class="fas fa-user-injured"></i> Patients</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Staff</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-alt"></i> Appointments</a></li>
+                </ul>
+                <h4>Management</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Billing</a></li>
+                    <li><a href="#"><i class="fas fa-pills"></i> Pharmacy</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+                <h4>Account</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-user-cog"></i> Profile Settings</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="page-header">
+                <h2><i class="fas fa-home"></i> Admin Dashboard</h2>
+                <div class="welcome-message">
+                    Welcome back, <strong>Admin</strong> | <span class="date">Today is Monday, June 12, 2023</span>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon patients">
+                        <i class="fas fa-user-injured"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>1,245</h3>
+                        <p>Total Patients</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon doctors">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>42</h3>
+                        <p>Doctors</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon appointments">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>86</h3>
+                        <p>Today's Appointments</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon revenue">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>$24,580</h3>
+                        <p>Monthly Revenue</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-user-md"></i> Doctor Management</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Specialization</th>
+                                <th>Contact</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>D1001</td>
+                                <td>Dr. Sarah Johnson</td>
+                                <td>Cardiology</td>
+                                <td>sarah.j@hospital.com</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="action-btn view">View</button>
+                                    <button class="action-btn edit">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>D1002</td>
+                                <td>Dr. Michael Chen</td>
+                                <td>Neurology</td>
+                                <td>michael.c@hospital.com</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>
+                                    <button class="action-btn view">View</button>
+                                    <button class="action-btn edit">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>D1003</td>
+                                <td>Dr. Robert Williams</td>
+                                <td>General Medicine</td>
+                                <td>robert.w@hospital.com</td>
+                                <td><span class="badge badge-warning">On Leave</span></td>
+                                <td>
+                                    <button class="action-btn view">View</button>
+                                    <button class="action-btn edit">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-chart-line"></i> Recent Reports</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Report ID</th>
+                                <th>Type</th>
+                                <th>Period</th>
+                                <th>Generated On</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>R20230601</td>
+                                <td>Monthly Revenue</td>
+                                <td>May 2023</td>
+                                <td>June 1, 2023</td>
+                                <td><button class="action-btn view">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>R20230515</td>
+                                <td>Patient Admissions</td>
+                                <td>April 2023</td>
+                                <td>May 15, 2023</td>
+                                <td><button class="action-btn view">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>R20230501</td>
+                                <td>Pharmacy Sales</td>
+                                <td>April 2023</td>
+                                <td>May 1, 2023</td>
+                                <td><button class="action-btn view">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <img src="https://img.icons8.com/color/48/000000/hospital.png" alt="CityCare Hospital Logo" class="logo-small" />
+                        <h2>CITYCARE HOSPITAL</h2>
+                    </div>
+                    <p>Providing exceptional healthcare services with compassion and cutting-edge technology since 1985.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="patient.html">Patient Portal</a></li>
+                        <li><a href="doctor.html">Doctor Portal</a></li>
+                        <li><a href="admin.html">Admin Portal</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <address>
+                        123 Healthcare Avenue<br />
+                        Medical District, MD 12345<br />
+                        Phone: (123) 456-7890<br />
+                        Email: info@citycarehospital.com
+                    </address>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; <span id="current-year"></span> CityCare Hospital. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let selectedRole = null;
+
+            // Role selection
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    selectedRole = card.dataset.role;
+                    document.getElementById('login-form-container').style.display = 'block';
+                    document.getElementById('selected-role').textContent =
+                        selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1);
+
+                    // Scroll to login form
+                    document.getElementById('login-form-container').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Login form submission
+            const loginForm = document.getElementById('login-form');
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                // For demo purposes, we'll just show the appropriate dashboard
+                // In a real application, you would validate credentials with a backend
+                switch (selectedRole) {
+                    case 'patient':
+                        document.getElementById('patient-dashboard').style.display = 'grid';
+                        document.querySelector('header').style.display = 'none';
+                        document.querySelector('.hero').style.display = 'none';
+                        document.querySelector('.role-selection').style.display = 'none';
+                        document.querySelector('footer').style.display = 'none';
+                        break;
+                    case 'doctor':
+                        document.getElementById('doctor-dashboard').style.display = 'grid';
+                        document.querySelector('header').style.display = 'none';
+                        document.querySelector('.hero').style.display = 'none';
+                        document.querySelector('.role-selection').style.display = 'none';
+                        document.querySelector('footer').style.display = 'none';
+                        break;
+                    case 'admin':
+                        document.getElementById('admin-dashboard').style.display = 'grid';
+                        document.querySelector('header').style.display = 'none';
+                        document.querySelector('.hero').style.display = 'none';
+                        document.querySelector('.role-selection').style.display = 'none';
+                        document.querySelector('footer').style.display = 'none';
+                        break;
+                    default:
+                        alert('Please select a role before logging in.');
+                }
+            });
+
+            // Update footer year
+            document.getElementById("current-year").textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+
+</html>

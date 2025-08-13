@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Online Hospital Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* ====== Navbar Styling ====== */
+        
+        .navbar {
+            background: linear-gradient(90deg, #000000, #1a1a1a);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+        }
+        
+        .navbar .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar ul li {
+            position: relative;
+        }
+        
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 16px;
+            display: block;
+            font-weight: 500;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .navbar ul li a:hover {
+            background: #fff;
+            color: #000;
+            border-radius: 5px;
+            transform: scale(1.05);
+        }
+        /* ===== Dropdown Menu ===== */
+        
+        .navbar ul li ul {
+            position: absolute;
+            top: 45px;
+            left: 0;
+            background: #1a1a1a;
+            display: none;
+            flex-direction: column;
+            min-width: 180px;
+            border-radius: 5px;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .navbar ul li:hover ul {
+            display: flex;
+        }
+        
+        .navbar ul li ul li a {
+            padding: 10px;
+        }
+        
+        .navbar ul li ul li a:hover {
+            background: #fff;
+            color: #000;
+        }
+        /* ===== Animation ===== */
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* ===== Footer Styling ===== */
+        
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 40px 0 20px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-about,
+        .footer-links,
+        .footer-map,
+        .footer-blog,
+        .footer-awards {
+            flex: 1;
+            min-width: 220px;
+            margin: 10px 20px;
+        }
+        
+        .footer-about h3,
+        .footer-links h3,
+        .footer-map h3,
+        .footer-blog h3,
+        .footer-awards h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-about p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #ccc;
+        }
+        
+        .footer-links ul,
+        .footer-blog ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links ul li,
+        .footer-blog ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a,
+        .footer-blog ul li a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        
+        .footer-links ul li a:hover,
+        .footer-blog ul li a:hover {
+            color: #4CAF50;
+            transform: translateX(5px);
+        }
+        
+        .footer-map iframe {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            max-width: 100%;
+        }
+        
+        .footer-awards .award-logos {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-awards .award-logos img {
+            height: 50px;
+            width: auto;
+        }
+        
+        .footer-social {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px 0;
+            border-top: 1px solid #444;
+        }
+        
+        .footer-social h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-social ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .footer-social ul li a {
+            font-size: 16px;
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-social ul li a:hover {
+            color: #4CAF50;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px 0;
+            border-top: 1px solid #444;
+            font-size: 14px;
+            color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== Navigation Bar ===== -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">🏥 CityCare Hospital</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="dashboard.html">Dashboard</a>
+                </li>
+                <li><a href="userauthentication.html">User Authentication</a></li>
+                <li><a href="appointment.html">Appointment</a></li>
+                <li><a href="doctorho.html">Doctor Login</a></li>
+                <li><a href="online.html">Online Consultation</a></li>
+                <li><a href="billing.html">Billing & Payments</a></li>
+                <li><a href="pharmacy.html">Pharmacy Management</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="signup.html">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!--Slideshow-->
+    <!-- ===== Slideshow Section ===== -->
+    <div class="slideshow-container">
+
+        <div class="slide fade">
+            <img src="https://tse3.mm.bing.net/th/id/OIP.2qJuW-yf1-WnvrbQDotjfwHaEK?pid=Api&P=0&h=180" alt="Modern Facilities">
+        </div>
+        <div class="slide fade">
+            <img src="https://scrmc.com/wp-content/uploads/2022/01/Lab-Web-scaled.jpg" alt="Emergency Care">
+        </div>
+        <div class="slide fade">
+            <img src="https://www.lablynx.com/wp-content/uploads/2024/06/The-Evolving-Medical-Microbiology-Lab-A-Deep-Dive-into-Testing-Technology-the-Future.jpg" alt="Emergency Care">
+        </div>
+        <div class="slide fade">
+            <img src="https://img.freepik.com/premium-vector/test-tube-microbiology-laboratory-test_1035899-11949.jpg" alt="Emergency Care">
+        </div>
+        <div class="slide fade">
+            <img src="https://as1.ftcdn.net/v2/jpg/02/98/00/12/1000_F_298001265_CeUX88t2v50MXqgklWvZQ6Lv6HVs7TQ9.jpg" alt="Emergency Care">
+        </div>
+    </div>
+
+
+    <style>
+        /* Slideshow container */
+        
+        .slideshow-container {
+            position: relative;
+            max-width: 1300px;
+            margin: 30px auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        /* Slides */
+        
+        .slide {
+            display: none;
+        }
+        
+        .slide img {
+            width: 100%;
+            transition: transform 0.5s ease;
+        }
+        /* Hover zoom effect */
+        
+        .slide img:hover {
+            transform: scale(1.05);
+        }
+        /* Fade animation */
+        
+        .fade {
+            animation: fadeEffect 1.5s ease-in-out;
+        }
+        
+        @keyframes fadeEffect {
+            from {
+                opacity: 0.4;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <script>
+        // Auto slideshow
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let slides = document.querySelectorAll(".slide");
+            slides.forEach(slide => slide.style.display = "none");
+            slideIndex++;
+            if (slideIndex > slides.length) slideIndex = 1;
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 3000); // Change image every 3 seconds
+        }
+    </script>
+
+
+
+
+    <!-- some free checkups on my website-->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .health-section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+        
+        .health-section h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, #38bdf8, #9333ea);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.5em;
+            color: #38bdf8;
+        }
+        
+        .card input {
+            width: 90%;
+            padding: 8px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+        }
+        
+        .btn {
+            background: linear-gradient(90deg, #38bdf8, #9333ea);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: 0.3s;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(90deg, #9333ea, #38bdf8);
+        }
+        
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #facc15;
+        }
+    </style>
+    </head>
+
+    <body>
+
+        <section class="health-section">
+            <h2>Free Health Checkups</h2>
+            <div class="cards">
+
+                <!-- BMI Calculator -->
+                <div class="card">
+                    <h3>BMI Calculator</h3>
+                    <input type="number" id="bmiWeight" placeholder="Weight (kg)">
+                    <input type="number" id="bmiHeight" placeholder="Height (cm)">
+                    <button class="btn" onclick="calcBMI()">Check BMI</button>
+                    <div class="result" id="bmiResult"></div>
+                </div>
+
+                <!-- Blood Pressure -->
+                <div class="card">
+                    <h3>Blood Pressure Checker</h3>
+                    <input type="number" id="bpSys" placeholder="Systolic">
+                    <input type="number" id="bpDia" placeholder="Diastolic">
+                    <button class="btn" onclick="checkBP()">Check BP</button>
+                    <div class="result" id="bpResult"></div>
+                </div>
+
+                <!-- Heart Rate -->
+                <div class="card">
+                    <h3>Heart Rate Zone</h3>
+                    <input type="number" id="hrValue" placeholder="Heart Rate (BPM)">
+                    <button class="btn" onclick="checkHR()">Check Zone</button>
+                    <div class="result" id="hrResult"></div>
+                </div>
+
+                <!-- Calorie Needs -->
+                <div class="card">
+                    <h3>Daily Calorie Needs</h3>
+                    <input type="number" id="calWeight" placeholder="Weight (kg)">
+                    <input type="number" id="calHeight" placeholder="Height (cm)">
+                    <input type="number" id="calAge" placeholder="Age">
+                    <select id="calGender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+                    <button class="btn" onclick="calcCalories()">Calculate</button>
+                    <div class="result" id="calResult"></div>
+                </div>
+
+                <!-- Water Intake -->
+                <div class="card">
+                    <h3>Water Intake Calculator</h3>
+                    <input type="number" id="waterWeight" placeholder="Weight (kg)">
+                    <button class="btn" onclick="calcWater()">Calculate</button>
+                    <div class="result" id="waterResult"></div>
+                </div>
+
+                <!-- Diabetes Risk -->
+                <div class="card">
+                    <h3>Diabetes Risk</h3>
+                    <input type="number" id="sugarLevel" placeholder="Fasting Sugar (mg/dL)">
+                    <button class="btn" onclick="checkDiabetes()">Check Risk</button>
+                    <div class="result" id="sugarResult"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <script>
+            function calcBMI() {
+                let w = parseFloat(document.getElementById('bmiWeight').value);
+                let h = parseFloat(document.getElementById('bmiHeight').value) / 100;
+                if (w && h) {
+                    let bmi = (w / (h * h)).toFixed(1);
+                    let status = bmi < 18.5 ? "Underweight" : bmi < 24.9 ? "Normal" : bmi < 29.9 ? "Overweight" : "Obese";
+                    document.getElementById('bmiResult').innerText = `BMI: ${bmi} (${status})`;
+                }
+            }
+
+            function checkBP() {
+                let sys = parseFloat(document.getElementById('bpSys').value);
+                let dia = parseFloat(document.getElementById('bpDia').value);
+                if (sys && dia) {
+                    let status = sys < 90 || dia < 60 ? "Low" : sys <= 120 && dia <= 80 ? "Normal" : sys <= 139 || dia <= 89 ? "Prehypertension" : "High";
+                    document.getElementById('bpResult').innerText = `BP Status: ${status}`;
+                }
+            }
+
+            function checkHR() {
+                let hr = parseFloat(document.getElementById('hrValue').value);
+                if (hr) {
+                    let status = hr < 60 ? "Below Normal" : hr <= 100 ? "Normal" : "High";
+                    document.getElementById('hrResult').innerText = `Heart Rate: ${status}`;
+                }
+            }
+
+            function calcCalories() {
+                let w = parseFloat(document.getElementById('calWeight').value);
+                let h = parseFloat(document.getElementById('calHeight').value);
+                let a = parseFloat(document.getElementById('calAge').value);
+                let g = document.getElementById('calGender').value;
+                if (w && h && a) {
+                    let bmr = g === "male" ? 88.36 + (13.4 * w) + (4.8 * h) - (5.7 * a) : 447.6 + (9.2 * w) + (3.1 * h) - (4.3 * a);
+                    document.getElementById('calResult').innerText = `Calories/day: ${Math.round(bmr*1.375)}`;
+                }
+            }
+
+            function calcWater() {
+                let w = parseFloat(document.getElementById('waterWeight').value);
+                if (w) {
+                    let intake = (w * 35); // in ml
+                    document.getElementById('waterResult').innerText = `Daily Water: ${(intake/1000).toFixed(2)} L`;
+                }
+            }
+
+            function checkDiabetes() {
+                let sugar = parseFloat(document.getElementById('sugarLevel').value);
+                if (sugar) {
+                    let status = sugar < 100 ? "Normal" : sugar <= 125 ? "Prediabetic" : "Diabetic";
+                    document.getElementById('sugarResult').innerText = `Risk: ${status}`;
+                }
+            }
+        </script>
+
+
+        <!-- Remaining body section-->
+        <!-- ====== Sections 2–7 ====== -->
+        <section class="home-section">
+            <div class="section-container">
+
+                <!-- Section 2: About Us -->
+                <div class="section-card">
+                    <h2>About Us</h2>
+                    <p>🏥 CityCare Hospital is dedicated to providing world-class healthcare services with a focus on compassion, technology, and patient safety. With a team of highly qualified doctors and cutting-edge facilities, we ensure that every patient
+                        receives the best care possible.</p>
+                </div>
+
+
+                <!-- Section 4: Appointment Booking -->
+                <div class="section-card">
+                    <h2>Book an Appointment</h2>
+                    <p>📅 Easily schedule your consultations online. Choose your preferred doctor, select a time slot, and receive instant booking confirmation — all from the comfort of your home.</p>
+                    <a href="#" class="btn">Book Now</a>
+                </div>
+
+                <!-- Section 5: Online Consultation -->
+                <div class="section-card">
+                    <h2>Online Consultation</h2>
+                    <p>💻 Connect with our doctors through secure video calls. Get prescriptions, medical advice, and follow-up care without stepping out of your home.</p>
+                    <a href="#" class="btn">Start Consultation</a>
+                </div>
+
+                <!-- Section 6: Pharmacy & Lab -->
+                <div class="section-card">
+                    <h2>Pharmacy & Lab Services</h2>
+                    <p>💊 Order medicines online and get them delivered to your doorstep. Schedule lab tests, get reports digitally, and manage your prescriptions seamlessly.</p>
+                </div>
+
+                <!-- Section 7: Feedback & Support -->
+                <div class="section-card">
+                    <h2>Feedback & Support</h2>
+                    <p>💬 We value your feedback! Help us improve by sharing your experiences. Our 24/7 support team is here to answer all your queries and guide you at every step.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CSS Styling ===== -->
+        <style>
+            body {
+                background: url('https://img.freepik.com/premium-photo/hospital-room-with-white-floor-blue-sign-that-says-hospital_905683-3119.jpg') no-repeat center center/cover;
+                font-family: 'Segoe UI', sans-serif;
+                margin: 0;
+                color: white;
+            }
+            /* Section Layout */
+            
+            .home-section {
+                padding: 50px 5%;
+            }
+            
+            .section-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 30px;
+            }
+            /* Transparent Cards */
+            
+            .section-card {
+                background: rgba(0, 0, 0, 0.55);
+                padding: 25px;
+                border-radius: 15px;
+                box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+                transition: all 0.4s ease;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                backdrop-filter: blur(10px);
+                animation: fadeUp 0.8s ease forwards;
+            }
+            /* Card Hover Animation */
+            
+            .section-card:hover {
+                transform: translateY(-10px) scale(1.03);
+                box-shadow: 0px 10px 30px rgba(0, 255, 150, 0.4);
+                border-color: rgba(0, 255, 150, 0.6);
+            }
+            /* Headings */
+            
+            .section-card h2 {
+                font-size: 1.6rem;
+                margin-bottom: 10px;
+                color: #00ffcc;
+                border-bottom: 2px solid #00ffcc;
+                padding-bottom: 5px;
+            }
+            /* Paragraphs & Lists */
+            
+            .section-card p,
+            .section-card ul {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            
+            .section-card ul {
+                list-style: none;
+                padding-left: 0;
+            }
+            
+            .section-card ul li {
+                padding: 5px 0;
+                transition: transform 0.3s ease;
+            }
+            
+            .section-card ul li:hover {
+                transform: translateX(8px);
+                color: #00ffcc;
+            }
+            /* Buttons */
+            
+            .btn {
+                display: inline-block;
+                background: #00ffcc;
+                color: black;
+                padding: 10px 18px;
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: bold;
+                margin-top: 10px;
+                transition: all 0.3s ease;
+            }
+            
+            .btn:hover {
+                background: #fff;
+                color: #00b38f;
+                transform: scale(1.05);
+            }
+            /* Animation for Fade-Up */
+            
+            @keyframes fadeUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+
+
+
+        <!-- ===== Footer ===== -->
+        <footer>
+            <div class="footer-container">
+                <div class="footer-about">
+                    <h3>CityCare Hospital</h3>
+                    <p>Providing compassionate healthcare with world-class facilities and expert doctors. We are committed to your well-being 24/7.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="appointments.html">Appointments</a></li>
+                        <li><a href="doctors.html">Doctors</a></li>
+                        <li><a href="billing.html">Billing & Payments</a></li>
+                        <li><a href="pharmacy.html">Pharmacy</a></li>
+                        <li><a href="feedback.html">Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="footer-map">
+                    <h3>Our Location</h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=YOUR_HOSPITAL_LOCATION_EMBED" width="100%" height="200" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                <div class="footer-blog">
+                    <h3>Latest Health Updates</h3>
+                    <ul>
+                        <li><a href="#">Free Cardiac Check-up Camp - Aug 2025</a></li>
+                        <li><a href="#">New MRI Machine Installed</a></li>
+                        <li><a href="#">Covid-19 Vaccination Drive Ongoing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-awards">
+                    <h3>Accreditations</h3>
+                    <div class="award-logos">
+                        <img src="https://static.vecteezy.com/system/resources/previews/020/548/447/original/iso-certification-iso-90012015-logo-iso-9000-certification-premium-vector.jpg" alt="ISO Certified">
+                        <img src="https://logos-world.net/wp-content/uploads/2021/03/World-Health-Organization-WHO-Symbol.png" alt="WHO Recognition">
+                        <img src="https://bansalhospitalsirsa.com/wp-content/uploads/2023/09/NABH-Bansal-Hospital.png" alt="NABH Accredited">
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="#"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                    <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                    <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    <li><a href="#"><i class="fab fa-linkedin-in"></i> Linkedin</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 CityCare Hospital. All rights reserved.</p>
+            </div>
+        </footer>
+
+        <!-- Font Awesome for icons -->
+        <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous">
+        </script>
+
+    </body>
+
+</html>

@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Online Hospital Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <style>
+        /* ====== Navbar Styling ====== */
+        
+        .navbar {
+            background: linear-gradient(90deg, #000000, #1a1a1a);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+        }
+        
+        .navbar .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar ul li {
+            position: relative;
+        }
+        
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 16px;
+            display: block;
+            font-weight: 500;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .navbar ul li a:hover {
+            background: #fff;
+            color: #000;
+            border-radius: 5px;
+            transform: scale(1.05);
+        }
+        
+        .navbar ul li ul {
+            position: absolute;
+            top: 45px;
+            left: 0;
+            background: #1a1a1a;
+            display: none;
+            flex-direction: column;
+            min-width: 180px;
+            border-radius: 5px;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-in-out;
+            z-index: 1000;
+        }
+        
+        .navbar ul li:hover ul {
+            display: flex;
+        }
+        
+        .navbar ul li ul li a {
+            padding: 10px;
+        }
+        
+        .navbar ul li ul li a:hover {
+            background: #fff;
+            color: #000;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* ===== Footer Styling ===== */
+        
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 40px 0 20px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-about,
+        .footer-links,
+        .footer-map,
+        .footer-blog,
+        .footer-awards {
+            flex: 1;
+            min-width: 220px;
+            margin: 10px 20px;
+        }
+        
+        .footer-about h3,
+        .footer-links h3,
+        .footer-map h3,
+        .footer-blog h3,
+        .footer-awards h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-about p,
+        .footer-links ul li a,
+        .footer-blog ul li a {
+            font-size: 14px;
+            color: #ccc;
+        }
+        
+        .footer-links ul,
+        .footer-blog ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-links ul li,
+        .footer-blog ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a:hover,
+        .footer-blog ul li a:hover {
+            color: #4CAF50;
+            transform: translateX(5px);
+        }
+        
+        .footer-map iframe {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            max-width: 100%;
+        }
+        
+        .footer-awards .award-logos {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-awards .award-logos img {
+            height: 50px;
+            width: auto;
+        }
+        
+        .footer-social {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px 0;
+            border-top: 1px solid #444;
+        }
+        
+        .footer-social h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-social ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .footer-social ul li a {
+            font-size: 16px;
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-social ul li a:hover {
+            color: #4CAF50;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px 0;
+            border-top: 1px solid #444;
+            font-size: 14px;
+            color: #ccc;
+        }
+        
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* Main content */
+        
+        .main {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filters input,
+        .filters select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .doctor-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .doctor-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .doctor-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: white;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        .available {
+            background: green;
+        }
+        
+        .surgery {
+            background: red;
+        }
+        
+        .leave {
+            background: gray;
+        }
+        
+        .book-btn {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #007bff;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .map-container,
+        .resources {
+            margin-top: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        /* style.css */
+        
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .doctor-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .doctor-image {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .doctor-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .availability {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .availability.available {
+            background: #28a745;
+        }
+        
+        .availability.unavailable {
+            background: #dc3545;
+        }
+        
+        .doctor-info {
+            padding: 1.5rem;
+        }
+        
+        .doctor-info h3 {
+            margin: 0 0 0.5rem 0;
+            color: #2c3e50;
+            font-size: 1.4rem;
+        }
+        
+        .doctor-info .specialization {
+            color: #3498db;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .doctor-info .experience,
+        .doctor-info .education,
+        .doctor-info .fee {
+            color: #7f8c8d;
+            margin: 0.3rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .doctor-info .bio {
+            margin: 1rem 0;
+            color: #34495e;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .btn-book,
+        .btn-profile {
+            padding: 0.6rem 1rem;
+            margin-right: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-book {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-profile {
+            background: #f8f9fa;
+            color: #2c3e50;
+            border: 1px solid #ddd;
+        }
+        
+        .btn-book:hover {
+            background: #2980b9;
+        }
+        
+        .btn-profile:hover {
+            background: #e9ecef;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filters input,
+        .filters select {
+            padding: 0.7rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            min-width: 200px;
+        }
+        
+        .filters input:focus,
+        .filters select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        /* Patient Resources Section */
+        
+        .resources-container {
+            background: #f8f9fa;
+            padding: 2.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .resources-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .resources-header h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .resources-header h2 i {
+            color: #3498db;
+            margin-right: 10px;
+        }
+        
+        .resources-header .subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+        }
+        
+        .resource-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .resource-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .card-header i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: #3498db;
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            color: #2c3e50;
+        }
+        /* Health Tips Styles */
+        
+        .health-tips .card-header i {
+            color: #2ecc71;
+        }
+        
+        .tips-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+        }
+        
+        .tips-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .tips-list li i {
+            color: #2ecc71;
+            margin-right: 10px;
+            font-size: 0.9rem;
+            margin-top: 3px;
+        }
+        /* FAQs Styles */
+        
+        .faqs .card-header i {
+            color: #f39c12;
+        }
+        
+        .faq-item {
+            margin-bottom: 1.2rem;
+        }
+        
+        .faq-item h4 {
+            margin: 0 0 0.3rem 0;
+            font-size: 1rem;
+            color: #34495e;
+            display: flex;
+            align-items: center;
+        }
+        
+        .faq-item h4 i {
+            margin-right: 8px;
+            font-size: 0.9rem;
+            color: #f39c12;
+        }
+        
+        .faq-item p {
+            margin: 0;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        /* Emergency Contacts Styles */
+        
+        .emergency .card-header i {
+            color: #e74c3c;
+        }
+        
+        .contact-item {
+            margin-bottom: 1.2rem;
+        }
+        
+        .contact-item h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            color: #34495e;
+        }
+        
+        .contact-item.critical h4 {
+            color: #e74c3c;
+        }
+        
+        .contact-number {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.3rem;
+        }
+        
+        .contact-number i {
+            color: #e74c3c;
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .contact-number span {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+        
+        .contact-item p {
+            margin: 0;
+            color: #7f8c8d;
+            font-size: 0.85rem;
+        }
+        /* Card Footer Styles */
+        
+        .card-footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .learn-more {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .learn-more i {
+            margin-left: 5px;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .learn-more:hover i {
+            transform: translateX(3px);
+        }
+        
+        .emergency-btn {
+            display: inline-flex;
+            align-items: center;
+            background: #e74c3c;
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+        
+        .emergency-btn i {
+            margin-right: 8px;
+        }
+        
+        .emergency-btn:hover {
+            background: #c0392b;
+        }
+        /* Font Awesome Icons (add this if not already included) */
+        
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+    </style>
+    <!-- ===== Navigation Bar ===== -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">🏥 CityCare Hospital</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="dashboard.html">Dashboard</a>
+                    <ul>
+                        <li><a href="patient.html">Patient</a></li>
+                        <li><a href="doctor.html">Doctor</a></li>
+                        <li><a href="admin.html">Admin</a></li>
+                    </ul>
+                </li>
+                <li><a href="userauthentication.html">User Authentication</a></li>
+                <li><a href="appointment.html">Appointment</a></li>
+                <li><a href="doctorho.html">Doctor Login</a></li>
+                <li><a href="online.html">Online Consultation</a></li>
+                <li><a href="billing.html">Billing & Payments</a></li>
+                <li><a href="pharmacy.html">Pharmacy Management</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="signup.html">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="filters">
+            <input type="text" id="search" placeholder="Search doctor by name" />
+            <select id="specializationFilter">
+        <option value="">All Specializations</option>
+        <option value="Interventional Cardiologist">Interventional Cardiologist</option>
+        <option value="Child Neurologist">Child Neurologist</option>
+        <option value="Orthopedic Surgeon">Orthopedic Surgeon</option>
+        <option value="Dermatologist">Dermatologist</option>
+        <option value="Radiologist">Radiologist</option>
+        <option value="General Physician">General Physician</option>
+      </select>
+            <select id="availabilityFilter">
+        <option value="">All Status</option>
+        <option value="Available Now">Available Now</option>
+        <option value="In Surgery">In Surgery</option>
+        <option value="On Leave">On Leave</option>
+      </select>
+        </div>
+
+        <div class="doctor-grid" id="doctorGrid"></div>
+
+        <div class="map-container">
+            <h3>Hospital Map</h3>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Hospital_Floor_Plan.svg/1024px-Hospital_Floor_Plan.svg.png" alt="Hospital Map" width="100%" />
+        </div>
+
+        <div class="resources-container">
+            <div class="resources-header">
+                <h2><i class="fas fa-info-circle"></i> Patient Resources</h2>
+                <p class="subtitle">Essential information for your healthcare journey</p>
+            </div>
+
+            <div class="resource-cards">
+                <!-- Health Tips Card -->
+                <div class="resource-card health-tips">
+                    <div class="card-header">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3>Health & Wellness Tips</h3>
+                    </div>
+                    <ul class="tips-list">
+                        <li><i class="fas fa-check-circle"></i> Drink at least 8 glasses of water daily</li>
+                        <li><i class="fas fa-check-circle"></i> Maintain a balanced diet with fruits and vegetables</li>
+                        <li><i class="fas fa-check-circle"></i> Exercise for 30 minutes at least 5 days a week</li>
+                        <li><i class="fas fa-check-circle"></i> Get 7-8 hours of quality sleep nightly</li>
+                        <li><i class="fas fa-check-circle"></i> Schedule annual preventive checkups</li>
+                    </ul>
+                    <div class="card-footer">
+                        <a href="#" class="learn-more">View all health tips <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- FAQs Card -->
+                <div class="resource-card faqs">
+                    <div class="card-header">
+                        <i class="fas fa-question-circle"></i>
+                        <h3>Frequently Asked Questions</h3>
+                    </div>
+                    <div class="faq-item">
+                        <h4><i class="far fa-file-alt"></i> Medical Reports</h4>
+                        <p>How to access your test results online through our patient portal</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4><i class="fas fa-shield-alt"></i> Insurance</h4>
+                        <p>Information about accepted insurance plans and coverage</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4><i class="fas fa-calendar-check"></i> Appointments</h4>
+                        <p>How to schedule, reschedule or cancel appointments</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="learn-more">Browse full FAQ <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Emergency Card -->
+                <div class="resource-card emergency">
+                    <div class="card-header">
+                        <i class="fas fa-ambulance"></i>
+                        <h3>Emergency Contacts</h3>
+                    </div>
+                    <div class="contact-item critical">
+                        <h4>Medical Emergency</h4>
+                        <div class="contact-number">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>+91-9876543210</span>
+                        </div>
+                        <p>24/7 emergency hotline</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>Ambulance Services</h4>
+                        <div class="contact-number">
+                            <i class="fas fa-ambulance"></i>
+                            <span>108 (Toll-free)</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <h4>Hospital Main Line</h4>
+                        <div class="contact-number">
+                            <i class="fas fa-phone"></i>
+                            <span>+91-9876543211</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="emergency-btn">
+                            <i class="fas fa-exclamation-triangle"></i> Emergency Protocol
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Footer ===== -->
+        <footer>
+            <div class="footer-container">
+                <div class="footer-about">
+                    <h3>About CityCare Hospital</h3>
+                    <p>
+                        CityCare Hospital is dedicated to providing world-class healthcare services with compassion and excellence. Our experienced doctors and modern facilities ensure the best patient care.
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="home.html">Home</a></li>
+                        <li><a href="appointment.html">Appointment</a></li>
+                        <li><a href="doctorlogin.html">Doctor Login</a></li>
+                        <li><a href="feedback.html">Feedback</a></li>
+                        <li><a href="signup.html">Sign Up</a></li>
+                    </ul>
+                </div>
+                <div class="footer-map">
+                    <h3>Location</h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15536.895128012804!2d79.1825982018976!3d21.246503599999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4c0cfaee66b91%3A0x1faab72e0461ca6e!2sNagpur%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1691550243076!5m2!1sen!2sin"
+                        width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div class="footer-blog">
+                    <h3>Latest Blog</h3>
+                    <ul>
+                        <li><a href="#">5 Tips for a Healthy Lifestyle</a></li>
+                        <li><a href="#">How to Prepare for Your Surgery</a></li>
+                        <li><a href="#">Understanding Health Insurance</a></li>
+                    </ul>
+                </div>
+                <div class="footer-awards">
+                    <h3>Awards & Recognition</h3>
+                    <div class="award-logos">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/ISO_9001_Logo.svg/120px-ISO_9001_Logo.svg.png" alt="ISO 9001" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/JCI_Logo.svg/120px-JCI_Logo.svg.png" alt="JCI Accredited" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-bottom">&copy; 2025 CityCare Hospital. All rights reserved.</div>
+        </footer>
+
+        <script src="script.js"></script>
+</body>
+
+</html>

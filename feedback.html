@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CityCare Hospital - Feedback</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ====== Global Styles ====== */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        /* ====== Navbar Styling ====== */
+        
+        .navbar {
+            background: linear-gradient(90deg, #000000, #1a1a1a);
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+        }
+        
+        .navbar .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar .logo i {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar ul li {
+            position: relative;
+        }
+        
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 16px;
+            display: block;
+            font-weight: 500;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .navbar ul li a:hover {
+            background: #fff;
+            color: #000;
+            border-radius: 5px;
+            transform: scale(1.05);
+        }
+        
+        .navbar ul li ul {
+            position: absolute;
+            top: 45px;
+            left: 0;
+            background: #1a1a1a;
+            display: none;
+            flex-direction: column;
+            min-width: 180px;
+            border-radius: 5px;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar ul li:hover ul {
+            display: flex;
+        }
+        
+        .navbar ul li ul li a {
+            padding: 12px 15px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .navbar ul li ul li:last-child a {
+            border-bottom: none;
+        }
+        
+        .navbar ul li ul li a:hover {
+            background: #fff;
+            color: #000;
+            padding-left: 20px;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* ===== Feedback Section Styling ===== */
+        
+        main {
+            min-height: calc(100vh - 160px);
+            padding: 20px;
+        }
+        
+        .feedback-section {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            font-family: 'Open Sans', sans-serif;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .feedback-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 28px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .feedback-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #4CAF50;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .rating-options {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .rating-option {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        
+        .rating-option:hover {
+            background: #f5f5f5;
+        }
+        
+        .rating-option input {
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .rating-stars {
+            color: #FFD700;
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        
+        .btn-submit {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+        
+        .btn-submit:hover {
+            background: #3d8b40;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+        /* Success message */
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: #e8f5e9;
+            border-radius: 5px;
+            margin-top: 20px;
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        
+        .success-message i {
+            font-size: 40px;
+            color: #4CAF50;
+            margin-bottom: 15px;
+            display: block;
+        }
+        /* ===== Footer Styling ===== */
+        
+        footer {
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            color: #fff;
+            padding: 50px 0 20px;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            gap: 30px;
+        }
+        
+        .footer-about,
+        .footer-links,
+        .footer-contact {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-about h3,
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-about h3::after,
+        .footer-links h3::after,
+        .footer-contact h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: #4CAF50;
+        }
+        
+        .footer-about p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: #4CAF50;
+            transform: translateY(-3px);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links ul li a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-links ul li a i {
+            margin-right: 8px;
+            font-size: 12px;
+            color: #4CAF50;
+        }
+        
+        .footer-links ul li a:hover {
+            color: #4CAF50;
+            transform: translateX(5px);
+        }
+        
+        .footer-contact p {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .footer-contact p i {
+            margin-right: 10px;
+            color: #4CAF50;
+            margin-top: 3px;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: #aaa;
+        }
+        /* Responsive adjustments */
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .navbar ul {
+                margin-top: 15px;
+                flex-direction: column;
+                width: 100%;
+            }
+            .navbar ul li {
+                width: 100%;
+            }
+            .navbar ul li ul {
+                position: static;
+                width: 100%;
+                display: none;
+                margin-top: 0;
+            }
+            .feedback-section {
+                padding: 30px 20px;
+                margin: 30px auto;
+            }
+            .footer-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== Navigation Bar ===== -->
+    <header>
+        <nav class="navbar">
+            <div class="logo"><i class="fas fa-hospital"></i> CityCare Hospital</div>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li>
+                    <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <ul>
+                        <li><a href="patient.html"><i class="fas fa-user-injured"></i> Patient</a></li>
+                        <li><a href="doctor.html"><i class="fas fa-user-md"></i> Doctor</a></li>
+                        <li><a href="admin.html"><i class="fas fa-user-cog"></i> Admin</a></li>
+                    </ul>
+                </li>
+                <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                <li><a href="billing.html"><i class="fas fa-file-invoice-dollar"></i> Billing</a></li>
+                <li><a href="pharmacy.html"><i class="fas fa-prescription-bottle-alt"></i> Pharmacy</a></li>
+                <li><a href="feedback.html"><i class="fas fa-comment-dots"></i> Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ===== Main Content ===== -->
+    <main>
+        <section class="feedback-section">
+            <h2>We Value Your Feedback</h2>
+            <form id="feedbackForm">
+                <div class="form-group">
+                    <label for="name">Full Name*</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address*</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email address" />
+                </div>
+                <div class="form-group">
+                    <label>Rate Our Service*</label>
+                    <div class="rating-options">
+                        <label class="rating-option">
+                            <input type="radio" name="rating" value="5" required>
+                            <span class="rating-stars">⭐⭐⭐⭐⭐</span> Excellent
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="rating" value="4">
+                            <span class="rating-stars">⭐⭐⭐⭐</span> Good
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="rating" value="3">
+                            <span class="rating-stars">⭐⭐⭐</span> Average
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="rating" value="2">
+                            <span class="rating-stars">⭐⭐</span> Poor
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="rating" value="1">
+                            <span class="rating-stars">⭐</span> Very Poor
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Feedback*</label>
+                    <textarea id="message" name="message" required placeholder="Please share your experience with us..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-paper-plane"></i> Submit Feedback
+                </button>
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Thank You for Your Feedback!</h3>
+                    <p>We appreciate you taking the time to share your experience with us.</p>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <h3>CityCare Hospital</h3>
+                <p>Providing quality healthcare with modern facilities and experienced medical staff since 1985.</p>
+                <p>Our mission is to deliver compassionate, high-quality care to all members of our community.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="appointment.html"><i class="fas fa-chevron-right"></i> Book Appointment</a></li>
+                    <li><a href="pharmacy.html"><i class="fas fa-chevron-right"></i> Pharmacy Services</a></li>
+                    <li><a href="billing.html"><i class="fas fa-chevron-right"></i> Online Billing</a></li>
+                    <li><a href="feedback.html"><i class="fas fa-chevron-right"></i> Patient Feedback</a></li>
+                    <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Healthcare Street, Cityville, CV 12345</p>
+                <p><i class="fas fa-phone-alt"></i> (123) 456-7890</p>
+                <p><i class="fas fa-phone-alt"></i> Emergency: (123) 456-7891</p>
+                <p><i class="fas fa-envelope"></i> info@citycare.com</p>
+                <p><i class="fas fa-clock"></i> Mon-Fri: 8:00 AM - 8:00 PM<br>Sat-Sun: 9:00 AM - 5:00 PM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; <span id="current-year"></span> CityCare Hospital. All rights reserved. | <a href="privacy.html" style="color: #aaa;">Privacy Policy</a> | <a href="terms.html" style="color: #aaa;">Terms of Service</a>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById("current-year").textContent = new Date().getFullYear();
+
+        // Form submission handler
+        document.getElementById("feedbackForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            // Simulate form submission
+            setTimeout(() => {
+                // Show success message
+                document.getElementById("successMessage").style.display = "block";
+
+                // Scroll to success message
+                document.getElementById("successMessage").scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Reset form after delay
+                setTimeout(() => {
+                    this.reset();
+                }, 3000);
+            }, 1000);
+        });
+
+        // Add animation to form elements when they come into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        const formGroups = document.querySelectorAll('.form-group');
+        formGroups.forEach((group, index) => {
+            group.style.opacity = 0;
+            group.style.transform = 'translateY(20px)';
+            group.style.transition = `all 0.5s ease ${index * 0.1}s`;
+            observer.observe(group);
+        });
+    </script>
+
+</body>
+
+</html>
